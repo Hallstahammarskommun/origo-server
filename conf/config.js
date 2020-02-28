@@ -8,6 +8,12 @@ module.exports = {
     consumer_secret: '',
     scope: ''
   },
+  getMarkreglering: {
+    url: 'https://api.lantmateriet.se/distribution/produkter/markreglering/v1.5',
+    consumer_key: '',
+    consumer_secret: '',
+    scope: ''
+  },
   getAkt: {
     consumer_key: '',
     consumer_secret: '',
