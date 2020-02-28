@@ -6,7 +6,7 @@ module.exports = function() {
       fastighetsnyckel: false
     },
     lagfart: {
-      IDnummer: false,
+      IDnummer: true,
       inskrivningsdag: true,
       dagboksnummer: false,
       beslut: false,
@@ -14,7 +14,7 @@ module.exports = function() {
       agare: true
     },
     tomtratt: {
-      IDnummer: false,
+      IDnummer: true,
       beslut: false,
       inskrivningsdag: true,
       dagboksnummer: false,
