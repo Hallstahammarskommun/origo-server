@@ -6,7 +6,9 @@ var pgDefault = function pgDefault(queryString, queryOptions, defaultLimit) {
   var sqlSearchField = searchField ? table + '."' + searchField + '" AS "NAMN",' : "";
   var fields = queryOptions.fields;
   var geometryField = queryOptions.geometryName || "geom";
-  var centroid = 'ST_AsText(ST_PointOnSurface(' + table + '."' + geometryField + '")) AS "GEOM" ';
+  var centroid = 'ST_AsText(geom)';
+  var layerNamne = queryOptions.layer;
+  var layer = "'" + layerNamne + "' AS LAYER, ";
   var sqlFields = fields ? fields.join(',') + "," : "";
   var type = " '" + table + "'" + ' AS "TYPE", ';
   var condition = queryString;
@@ -19,8 +21,9 @@ var pgDefault = function pgDefault(queryString, queryOptions, defaultLimit) {
     sqlSearchField +
     ' ' + table + '."' + gid + '" AS "GID", ' +
     type +
+    layer +
     centroid +
-    ' FROM ' + schema + '.' + table +
+    ' FROM ' /*+ schema + '.'*/ + table +
     ' WHERE LOWER(' + table + '."' + searchField + '"' + ") ILIKE LOWER('" + condition + "%')" +
     ' ORDER BY ' + table + '."' + searchField + '"' +
     limit + ';';
