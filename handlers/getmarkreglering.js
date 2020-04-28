@@ -63,19 +63,25 @@ var getMarkreglering = async (req, res) => {
       }, function (err, result) {
         var markreglering = objectifier.find('app:Markregleringsreferens', result);
 
-        // Skickar enbart förfrågan om det är en plan
-        for (var i = 0; i < markreglering.length; i++) {
-          if (objectifier.find('app:typ', markreglering[i]) === 'Plan') {
-            objektidentitet = objectifier.find('app:objektidentitet', markreglering[i]);
-            break;
-          }
-        }
+        if (markreglering !== undefined) {
 
-        if (objektidentitet === undefined) {
-          objektidentitet = objectifier.find('app:objektidentitet', result);
+          // Skickar enbart förfrågan om det är en plan
+          for (var i = 0; i < markreglering.length; i++) {
+            if (objectifier.find('app:typ', markreglering[i]) === 'Plan') {
+              objektidentitet = objectifier.find('app:objektidentitet', markreglering[i]);
+              break;
+            }
+          }
+
+          if (objektidentitet === undefined) {
+            objektidentitet = objectifier.find('app:objektidentitet', result);
+          }
+          lmMarkreglering(objektidentitet);
+        
+        } else {
+          res.json(result)
         }
       });
-      lmMarkreglering(objektidentitet);
     });
   } else if (objectifier.get('query.id', req) !== undefined) {
     objektidentitet = objectifier.get('query.id', req);
