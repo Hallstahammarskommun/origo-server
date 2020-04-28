@@ -79,7 +79,7 @@ var getMarkreglering = async (req, res) => {
           lmMarkreglering(objektidentitet);
         
         } else {
-          res.json(result)
+          res.json([])
         }
       });
     });
