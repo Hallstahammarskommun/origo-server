@@ -3,10 +3,11 @@ module.exports = {
     'storagePath': 'OrigoMapState' // Path to map state storage. Current path will save map state to a folder named OrigoMapState in the origo-server directory.
   },
   getInskrivning: {
-    url: 'https://api.lantmateriet.se/distribution/produkter/inskrivning/v2.1',
+    url: "https://api.lantmateriet.se/distribution/produkter/inskrivning/v2.1",
+    url_token: "https://api.lantmateriet.se/token",
     consumer_key: '',
     consumer_secret: '',
-    scope: ''
+    scope: 'am_application_scope default'
   },
   getMarkreglering: {
     url: 'https://api.lantmateriet.se/distribution/produkter/markreglering/v1.5',
@@ -15,9 +16,10 @@ module.exports = {
     scope: ''
   },
   getAkt: {
+    url_token: "https://api.lantmateriet.se/token",
     consumer_key: '',
     consumer_secret: '',
-    scope: ''
+    scope: 'am_application_scope default'
   },
   proxy: {
     proxyUrl: 'proxy?url='
@@ -70,5 +72,12 @@ module.exports = {
     consumer_key: 'xxxxx',
     consumer_secret: 'xxxxx',
     scope: 'am_application_scope default'
+  },
+  cors: {
+    origin: '*',
+    methods: ['GET', 'PUT', 'POST', 'OPTIONS', 'PATCH', 'DELETE'],
+    headers: 'X-Requested-With,content-type',
+    credentials: true,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 }

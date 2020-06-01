@@ -3,12 +3,13 @@ var pgDefault = function pgDefault(queryString, queryOptions, defaultLimit) {
   var table = queryOptions.table;
   var searchField = queryOptions.searchField;
   var gid = queryOptions.gid || 'gid';
-  var sqlSearchField = searchField ? table + '."' + searchField + '" AS "NAMN",' : "";
+  var sqlSearchField = searchField ? 'CAST(' + table + '."' + searchField + '" AS TEXT) AS "NAMN",' : "";
   var fields = queryOptions.fields;
   var geometryField = queryOptions.geometryName || "geom";
-  var centroid = 'ST_AsText(geom)';
-  var layerNamne = queryOptions.layer;
+   var layerNamne = queryOptions.layer;
   var layer = "'" + layerNamne + "' AS LAYER, ";
+  var useCentroid = queryOptions.hasOwnProperty("useCentroid") ? queryOptions.useCentroid : true;
+    var wkt = useCentroid ? 'ST_AsText(geom)' : geometryField + ".ToString() AS GEOM " + " ";
   var sqlFields = fields ? fields.join(',') + "," : "";
   var type = " '" + table + "'" + ' AS "TYPE", ';
   var condition = queryString;
@@ -20,11 +21,12 @@ var pgDefault = function pgDefault(queryString, queryOptions, defaultLimit) {
     'SELECT ' +
     sqlSearchField +
     ' ' + table + '."' + gid + '" AS "GID", ' +
+		sqlFields +	   
     type +
     layer +
-    centroid +
+    wkt +
     ' FROM ' /*+ schema + '.'*/ + table +
-    ' WHERE LOWER(' + table + '."' + searchField + '"' + ") ILIKE LOWER('" + condition + "%')" +
+    ' WHERE LOWER(CAST(' + table + '."' + searchField + '"' + " AS TEXT)) ILIKE LOWER('" + condition + "%')" +
     ' ORDER BY ' + table + '."' + searchField + '"' +
     limit + ';';
 
