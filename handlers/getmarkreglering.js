@@ -6,15 +6,16 @@ var parseString = require('xml2js').parseString;
 var getToken = require('../lib/tokenrequest');
 var token;
 
-var markregleringUrl = config.getMarkreglering.url;
-var markregleringKey = config.getMarkreglering.consumer_key;
-var markregleringSecret = config.getMarkreglering.consumer_secret;
-var markregleringScope = config.getMarkreglering.scope;
+var url = config.getMarkreglering.url;
+var url_token = config.getMarkreglering.url_token;
+var consumer_key = config.getMarkreglering.consumer_key;
+var consumer_secret = config.getMarkreglering.consumer_secret;
+var scope = config.getMarkreglering.scope;
 
 var getMarkreglering = async (req, res) => {
   var objektidentitet;
 
-  await getToken(markregleringKey, markregleringSecret, markregleringScope)
+  await getToken(url_token, consumer_key, consumer_secret, scope)
   .then(JSON.parse)
   .then((result) => {
     token = result.access_token;
@@ -49,7 +50,7 @@ var getMarkreglering = async (req, res) => {
       });
 
     request.post({
-      url: markregleringUrl,
+      url: url,
       body: xmlfind,
       headers: {
         'Content-Type': 'application/soap+xml',
@@ -109,7 +110,7 @@ var getMarkreglering = async (req, res) => {
       });
 
     request.post({
-      url: markregleringUrl,
+      url: url,
       body: xmlget,
       headers: {
         'Content-Type': 'application/soap+xml',
